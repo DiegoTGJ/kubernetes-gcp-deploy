@@ -13,7 +13,7 @@ jobs:
       - name: Test
         run: |-
           docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD}}
-          docker build -t pdtg/react-test -f ./client/Dockerfile.dev
+          docker build -t pdtg/react-test -f ./client/Dockerfile.dev ./client
           docker run -e CI=true pdtg/react-rest npm test
 
       - name: Set Service Key
