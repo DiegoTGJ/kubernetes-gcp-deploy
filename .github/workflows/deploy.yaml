@@ -34,12 +34,9 @@ jobs:
           location: ------------------------
       - name: Build
         run: |-
-          docker build -t pdtg/multi-client-k8s:latest -t
-pdtg/multi-client-k8s:${{ env.SHA }} -f ./client/Dockerfile ./client
-          docker build -t pdtg/multi-server-k8s:latest -t
-pdtg/multi-server-k8s:${{ env.SHA }} -f ./server/Dockerfile ./server
-          docker build -t pdtg/multi-worker-k8s:latest -t
-pdtg/multi-worker-k8s:${{ env.SHA }} -f ./worker/Dockerfile ./worker
+          docker build -t pdtg/multi-client-k8s:latest -t pdtg/multi-client-k8s:${{ env.SHA }} -f ./client/Dockerfile ./client
+          docker build -t pdtg/multi-server-k8s:latest -t pdtg/multi-server-k8s:${{ env.SHA }} -f ./server/Dockerfile ./server
+          docker build -t pdtg/multi-worker-k8s:latest -t pdtg/multi-worker-k8s:${{ env.SHA }} -f ./worker/Dockerfile ./worker
       - name: Push
         run: |-
           docker push pdtg/multi-client-k8s:latest
@@ -51,9 +48,6 @@ pdtg/multi-worker-k8s:${{ env.SHA }} -f ./worker/Dockerfile ./worker
           docker push pdtg/multi-worker-k8s:${{ env.SHA }}
       - name: Apply
         kubectl apply -f k8s
-        kubectl set image deployments/client-deployment
-client=pdtg/multi-client-k8s:${{ env.SHA }}
-        kubectl set image deployments/server-deployment
-server=pdtg/multi-server-k8s:${{ env.SHA }}
-        kubectl set image deployments/worker-deployment
-worker=pdtg/multi-worker-k8s:${{ env.SHA }}
+        kubectl set image deployments/client-deployment client=pdtg/multi-client-k8s:${{ env.SHA }}
+        kubectl set image deployments/server-deployment server=pdtg/multi-server-k8s:${{ env.SHA }}
+        kubectl set image deployments/worker-deployment worker=pdtg/multi-worker-k8s:${{ env.SHA }}
