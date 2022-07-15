@@ -19,7 +19,7 @@ jobs:
       - name: Set Service Key
         uses: google-github-actions/auth@v0
         with:
-          credentials.json: '${{ secrets.GKE_SA_KEY}}'
+          credentials.json: "${{ secrets.GKE_SA_KEY}}"
       - name: Set Project
         uses: google-github-actions/setup-gcloud@v0
         with:
@@ -47,7 +47,8 @@ jobs:
           docker push pdtg/multi-server-k8s:${{ env.SHA }}
           docker push pdtg/multi-worker-k8s:${{ env.SHA }}
       - name: Apply
-        kubectl apply -f k8s
-        kubectl set image deployments/client-deployment client=pdtg/multi-client-k8s:${{ env.SHA }}
-        kubectl set image deployments/server-deployment server=pdtg/multi-server-k8s:${{ env.SHA }}
-        kubectl set image deployments/worker-deployment worker=pdtg/multi-worker-k8s:${{ env.SHA }}
+        run: |-
+          kubectl apply -f k8s
+          kubectl set image deployments/client-deployment client=pdtg/multi-client-k8s:${{ env.SHA }}
+          kubectl set image deployments/server-deployment server=pdtg/multi-server-k8s:${{ env.SHA }}
+          kubectl set image deployments/worker-deployment worker=pdtg/multi-worker-k8s:${{ env.SHA }}
