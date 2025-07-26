@@ -1,3 +1,5 @@
+a project to deploy a kubernetes cluster to GCP 
+
 # GKE DEPLOY
 An unnecesary complex app using Kubernetes to showcase how to deploy a kubernetes managed app in Google Kubernetes Engine.
 # Services:
